@@ -1,0 +1,120 @@
+-- Criação da tabela Cliente
+CREATE TABLE Cliente (
+    id_cliente INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    telefone VARCHAR(20),
+    endereco VARCHAR(255),
+    email VARCHAR(100)
+);
+
+-- Criação da tabela Veículo
+CREATE TABLE Veiculo (
+    id_veiculo INT PRIMARY KEY AUTO_INCREMENT,
+    modelo VARCHAR(100) NOT NULL,
+    marca VARCHAR(100) NOT NULL,
+    ano INT NOT NULL,
+    placa VARCHAR(10) NOT NULL,
+    id_cliente INT,
+    FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente)
+);
+
+-- Criação da tabela Ordem de Serviço (OS)
+CREATE TABLE Ordem_Servico (
+    id_os INT PRIMARY KEY AUTO_INCREMENT,
+    numero VARCHAR(20) NOT NULL,
+    data_emissao DATE NOT NULL,
+    data_conclusao DATE,
+    status VARCHAR(20) NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL,
+    id_cliente INT,
+    id_veiculo INT,
+    FOREIGN KEY (id_cliente) REFERENCES Cliente(id_cliente),
+    FOREIGN KEY (id_veiculo) REFERENCES Veiculo(id_veiculo)
+);
+
+-- Criação da tabela Mecânico
+CREATE TABLE Mecanico (
+    id_mecanico INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL,
+    endereco VARCHAR(255),
+    especialidade VARCHAR(100)
+);
+
+-- Criação da tabela Equipe
+CREATE TABLE Equipe (
+    id_equipe INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL
+);
+
+-- Criação da tabela que associa Mecânicos à Equipe
+CREATE TABLE Equipe_Mecanico (
+    id_equipe INT,
+    id_mecanico INT,
+    PRIMARY KEY (id_equipe, id_mecanico),
+    FOREIGN KEY (id_equipe) REFERENCES Equipe(id_equipe),
+    FOREIGN KEY (id_mecanico) REFERENCES Mecanico(id_mecanico)
+);
+
+-- Criação da tabela Serviço
+CREATE TABLE Servico (
+    id_servico INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(255) NOT NULL,
+    tempo_estimado INT NOT NULL, -- Tempo estimado em horas
+    valor DECIMAL(10, 2) NOT NULL,
+    id_os INT,
+    FOREIGN KEY (id_os) REFERENCES Ordem_Servico(id_os)
+);
+
+-- Criação da tabela Peça
+CREATE TABLE Peca (
+    id_peca INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(255) NOT NULL,
+    valor DECIMAL(10, 2) NOT NULL,
+    id_os INT,
+    FOREIGN KEY (id_os) REFERENCES Ordem_Servico(id_os)
+);
+
+-- Criação da tabela Tabela de Referência de Mão de Obra
+CREATE TABLE Tabela_Referencia_Mao_Obra (
+    id_tabela INT PRIMARY KEY AUTO_INCREMENT,
+    descricao VARCHAR(255) NOT NULL,
+    valor_hora DECIMAL(10, 2) NOT NULL
+);
+
+-- Criação da tabela que associa a Tabela de Referência de Mão de Obra com os Serviços
+CREATE TABLE Servico_Tabela_Mao_Obra (
+    id_servico INT,
+    id_tabela INT,
+    PRIMARY KEY (id_servico, id_tabela),
+    FOREIGN KEY (id_servico) REFERENCES Servico(id_servico),
+    FOREIGN KEY (id_tabela) REFERENCES Tabela_Referencia_Mao_Obra(id_tabela)
+);
+
+
+Explicação do Código SQL
+Cliente: Contém as informações do cliente, como nome, telefone, endereço e email.
+
+Veículo: Relacionado a um único cliente, cada veículo tem um modelo, marca, ano e placa.
+
+Ordem de Serviço (OS): Cada ordem de serviço tem um número, data de emissão, status, valor total, e está associada a um cliente e um veículo.
+
+Mecânico: Contém as informações sobre os mecânicos, incluindo nome, endereço e especialidade.
+
+Equipe: Define a equipe de mecânicos, cada equipe pode ter vários mecânicos.
+
+Equipe_Mecanico: Relacionamento entre mecânicos e equipes, pois cada mecânico pertence a uma equipe.
+
+Serviço: Contém os serviços específicos a serem realizados, incluindo a descrição, tempo estimado e valor.
+
+Peça: Refere-se às peças utilizadas na execução dos serviços, e está associada a uma ordem de serviço.
+
+Tabela de Referência de Mão de Obra: Define os valores de mão de obra (por hora) com base no tipo de serviço. Cada serviço pode consultar essa tabela.
+
+Servico_Tabela_Mao_Obra: Relaciona a tabela de referência de mão de obra com os serviços, de modo que cada serviço pode ter um valor associado à tabela de referência.
+
+Considerações
+AUTO_INCREMENT foi usado para gerar os identificadores das tabelas (chaves primárias) de forma automática.
+FOREIGN KEY garante a integridade referencial entre as tabelas relacionadas.
+Cada Ordem de Serviço (OS) está associada a um cliente e a um veículo.
+A Tabela de Referência de Mão de Obra é usada para calcular o valor de cada serviço com base na quantidade de tempo estimado.
+Esse código pode ser executado em um banco de dados MySQL, MariaDB ou qualquer outro banco de dados relacional que suporte as sintaxes de SQL
