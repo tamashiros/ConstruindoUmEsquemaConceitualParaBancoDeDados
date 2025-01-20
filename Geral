@@ -1,0 +1,126 @@
+Para criar o esquema conceitual baseado na narrativa fornecida, vou estruturar as entidades, seus atributos e os relacionamentos entre elas. Abaixo segue uma descrição de cada uma das entidades, atributos e seus relacionamentos, assim como algumas decisões que tomarei para preencher lacunas no contexto.
+
+Entidades:
+Cliente
+
+Atributos:
+
+id_cliente (PK)
+nome
+telefone
+endereço
+email
+Descrição: Cliente da oficina, que leva seu veículo para ser consertado ou passar por revisão. Ele está relacionado diretamente com as ordens de serviço.
+
+Veículo
+
+Atributos:
+id_veículo (PK)
+modelo
+marca
+ano
+placa
+id_cliente (FK)
+Descrição: Veículo do cliente que está sendo consertado ou passando por revisão. Está associado a uma ou mais ordens de serviço.
+Ordem de Serviço (OS)
+
+Atributos:
+id_os (PK)
+numero
+data_emissao
+data_conclusao
+status
+valor_total
+id_cliente (FK)
+id_veículo (FK)
+Descrição: Documento que registra os serviços a serem executados em um veículo. Cada ordem de serviço está associada a um cliente e a um veículo e tem uma data de emissão, data de conclusão, valor total e status (em andamento, concluída, etc.).
+Mecânico
+
+Atributos:
+
+id_mecanico (PK)
+nome
+endereco
+especialidade
+Descrição: Profissional responsável por executar os serviços na oficina. Cada mecânico pode ter especialidades diferentes (como motor, suspensão, etc.) e está associado à equipe que irá trabalhar em uma ordem de serviço.
+
+Equipe
+
+Atributos:
+
+id_equipe (PK)
+nome
+id_mecanico (FK)
+Descrição: Grupo de mecânicos responsáveis por executar os serviços de uma ordem de serviço. A equipe será responsável por identificar e executar os serviços.
+
+Serviço
+
+Atributos:
+
+id_servico (PK)
+descricao
+tempo_estimado
+valor
+id_os (FK)
+Descrição: Serviço específico a ser realizado na oficina, como troca de óleo, troca de pastilhas de freio, etc. Cada serviço tem um valor associado, e os serviços são preenchidos na ordem de serviço.
+
+Tabela de Referência de Mão de Obra
+
+Atributos:
+
+id_tabela (PK)
+descricao
+valor_hora
+Descrição: Tabela que define o custo da mão de obra por tipo de serviço ou por tempo de execução (valor por hora). É usada para calcular o valor de cada serviço a ser executado.
+
+Peça
+
+Atributos:
+
+id_peca (PK)
+descricao
+valor
+id_os (FK)
+Descrição: Peças que são necessárias para a realização de um serviço. Cada peça tem um valor e está associada a uma ordem de serviço.
+
+Relacionamentos:
+Cliente 1:N Veículo
+
+Um cliente pode ter múltiplos veículos.
+Veículo 1:N Ordem de Serviço
+
+Um veículo pode ter várias ordens de serviço ao longo do tempo.
+Ordem de Serviço 1:N Serviço
+
+Uma ordem de serviço pode conter vários serviços a serem realizados no veículo.
+Ordem de Serviço 1:N Peça
+
+Uma ordem de serviço pode envolver várias peças necessárias para a execução de serviços.
+Ordem de Serviço N:1 Cliente
+
+Cada ordem de serviço é associada a um único cliente.
+Equipe 1:N Mecânico
+
+Cada equipe pode ter vários mecânicos que trabalham juntos em diversas ordens de serviço.
+Mecânico N:M Ordem de Serviço
+
+Os mecânicos estão relacionados a ordens de serviço através das equipes, pois cada equipe trabalha em ordens de serviço específicas.
+Tabela de Referência de Mão de Obra 1:N Serviço
+
+A tabela de referência de mão de obra pode ser consultada para determinar o valor de cada serviço com base no tempo estimado.
+Modelo ER (Entidade-Relacionamento):
+Abaixo está o esquema conceitual em formato de texto, descrevendo as entidades e seus relacionamentos:
+
+Cliente (id_cliente, nome, telefone, endereço, email)
+Veículo (id_veículo, modelo, marca, ano, placa, id_cliente)
+Ordem de Serviço (id_os, numero, data_emissao, data_conclusao, status, valor_total, id_cliente, id_veículo)
+Mecânico (id_mecanico, nome, endereco, especialidade)
+Equipe (id_equipe, nome, id_mecanico)
+Serviço (id_servico, descricao, tempo_estimado, valor, id_os)
+Tabela de Referência de Mão de Obra (id_tabela, descricao, valor_hora)
+Peça (id_peca, descricao, valor, id_os)
+Repositório no GitHub:
+Eu criaria um repositório no GitHub com o nome oficina-mecanica-sistema-controle-os e adicionaria os seguintes arquivos:
+
+README.md: Descrição do projeto e do esquema conceitual.
+esquema_conceitual.sql: SQL do modelo conceitual que poderia ser utilizado para criar o banco de dados.
