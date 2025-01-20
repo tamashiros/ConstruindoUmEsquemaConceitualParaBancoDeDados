@@ -37,6 +37,3 @@ As principais entidades do sistema incluem:
 - Cada **Ordem de Serviço** está associada a um **Cliente** e a um **Veículo**.
 - Um **Mecânico** pertence a uma **Equipe** que executa os serviços nas **Ordens de Serviço**.
 
-## Licença
-
-Este projeto está licenciado sob a MIT License.
