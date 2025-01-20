@@ -55,3 +55,86 @@
 | endereco         |            | id_mecanico (FK)    |           | descricao                  |
 | especialidade    |            +---------------------+           | valor_hora                 |
 +------------------+                                              +----------------------------+
+Claro! Vou criar um diagrama de Entidade-Relacionamento (ER) para ilustrar o esquema conceitual que descrevi anteriormente. 
+
+No diagrama, usaremos as entidades e seus relacionamentos, conforme a descrição fornecida.
+
+### Diagrama ER
+
+```plaintext
++------------------+            +------------------+
+|    Cliente       |            |    Veículo       |
+|------------------|            |------------------|
+| id_cliente (PK)  |<---------->| id_veículo (PK)  |
+| nome             |            | modelo           |
+| telefone         |            | marca            |
+| endereço         |            | ano              |
+| email            |            | placa            |
++------------------+            | id_cliente (FK)  |
+                                +------------------+
+                                         |
+                                         |
+                                         V
+                              +----------------------+
+                              | Ordem de Serviço (OS)|
+                              |----------------------|
+                              | id_os (PK)           |
+                              | numero               |
+                              | data_emissao         |
+                              | data_conclusao       |
+                              | status               |
+                              | valor_total          |
+                              | id_cliente (FK)      |
+                              | id_veículo (FK)      |
+                              +----------------------+
+                                         |
+                                         |
+                                         V
+                        +---------------------------+
+                        |         Serviço            |
+                        |---------------------------|
+                        | id_servico (PK)           |
+                        | descricao                 |
+                        | tempo_estimado            |
+                        | valor                     |
+                        | id_os (FK)                |
+                        +---------------------------+
+                                         |
+                                         |
+                                         V
+                        +---------------------------+
+                        |           Peça             |
+                        |---------------------------|
+                        | id_peca (PK)              |
+                        | descricao                 |
+                        | valor                     |
+                        | id_os (FK)                |
+                        +---------------------------+
+
++------------------+            +---------------------+           +----------------------------+
+|    Mecânico     |            |       Equipe         |           |  Tabela de Referência de    |
+|------------------|            |---------------------|           |       Mão de Obra           |
+| id_mecanico (PK) |<---------->| id_equipe (PK)      |           |----------------------------|
+| nome             |            | nome                |           | id_tabela (PK)             |
+| endereco         |            | id_mecanico (FK)    |           | descricao                  |
+| especialidade    |            +---------------------+           | valor_hora                 |
++------------------+                                              +----------------------------+
+```
+
+### Explicação do Diagrama:
+
+1. **Cliente** pode ter múltiplos **Veículos**. Um cliente está vinculado a um ou mais veículos, e cada veículo está vinculado a uma ordem de serviço.
+   
+2. **Veículo** está relacionado a múltiplas **Ordens de Serviço**. Cada ordem de serviço está associada a um único veículo.
+
+3. **Ordem de Serviço (OS)** pode conter múltiplos **Serviços** e **Peças**. Cada serviço e peça pertencem a uma única ordem de serviço.
+
+4. **Mecânico** pertence a uma **Equipe**, e uma **Equipe** pode ter vários mecânicos. Cada equipe de mecânicos executa os serviços de uma ordem de serviço específica.
+
+5. **Tabela de Referência de Mão de Obra** é consultada para determinar os valores dos **Serviços** com base no tempo estimado para execução.
+
+### Ferramenta Utilizada para o Diagrama
+
+Eu sugiro que você use uma ferramenta de modelagem ER como **Lucidchart**, **Draw.io**, ou **dbdiagram.io** para gerar o diagrama visual a partir desta estrutura. Se precisar de mais ajuda para gerar a versão gráfica, posso orientá-lo sobre como fazer isso ou criar um link de exportação para essas ferramentas.
+
+Caso queira um arquivo visual diretamente aqui, comente, e eu posso tentar gerar uma imagem.
